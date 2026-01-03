@@ -1,0 +1,113 @@
+/* Envelope card container */
+.envelope-card {
+  position: relative;
+  width: 90%;
+  max-width: 700px;
+  aspect-ratio: 16 / 10;
+  border-radius: 4px;
+  overflow: visible;
+}
+
+/* Beige border around entire envelope */
+.envelope-card::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  background: linear-gradient(135deg, #e8dcc8 0%, #d4c4a8 100%);
+  border-radius: 6px;
+  z-index: -1;
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.2),
+    0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Base background */
+.envelope-base {
+  position: absolute;
+  inset: 0;
+  background: #9fc5e8;
+  border-radius: 4px;
+  z-index: 1;
+}
+
+/* Side Flaps (Left & Right) */
+.envelope-side-left,
+.envelope-side-right {
+  position: absolute;
+  inset: 0;
+  background: #a8c9e4;
+  z-index: 2;
+}
+
+.envelope-side-left {
+  clip-path: polygon(0 0, 50% 50%, 0 100%);
+  border-right: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.envelope-side-right {
+  clip-path: polygon(100% 0, 50% 50%, 100% 100%);
+  border-left: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+/* Bottom Flap - 65% height from bottom */
+.envelope-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 65%;
+  background: #9fc5e8;
+  clip-path: polygon(0 100%, 100% 100%, 50% 0);
+  z-index: 3;
+  border-top: 2px solid rgba(255, 255, 255, 0.6);
+}
+
+/* Top Flap - 65% height from top */
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 65%;
+  background: #a8c9e4;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  z-index: 4;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.15));
+}
+
+/* Top flap lines */
+.envelope-flap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    linear-gradient(to bottom right, transparent 49.5%, rgba(255, 255, 255, 0.8) 49.5%, rgba(255, 255, 255, 0.8) 50.5%, transparent 50.5%),
+    linear-gradient(to bottom left, transparent 49.5%, rgba(255, 255, 255, 0.8) 49.5%, rgba(255, 255, 255, 0.8) 50.5%, transparent 50.5%);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+/* Seal container - positioned in the middle */
+.envelope-seal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.35));
+}
+
+/* Fade in animation */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
