@@ -16,7 +16,7 @@ export default function Home() {
   const hasAnimated = useRef(false)
 
   // Graduation date: February 9, 2026 at 10:00 AM
-  const graduationDate = new Date('2026-02-09T10:00:00+07:00')
+  const graduationDate = new Date('2026-01-09T10:00:00+07:00')
 
   // Countdown logic
   useEffect(() => {
@@ -47,6 +47,7 @@ export default function Home() {
 
     const timeline = gsap.timeline({
       onComplete: () => {
+        // Sau khi đọc xong hết thì mới ẩn toàn bộ màn hình Splash
         gsap.to(containerRef.current, {
           opacity: 0,
           duration: 1,
@@ -56,7 +57,7 @@ export default function Home() {
       },
     })
 
-    // Phase 1: Countdown texts
+    // Phase 1: Hiện các dòng chữ đầu và bộ đếm ngược
     const countdownIndices = [0, 1, 2]
     countdownIndices.forEach((index) => {
       const text = splashTextsRef.current[index]
@@ -64,30 +65,26 @@ export default function Home() {
         timeline.fromTo(text, 
           { opacity: 0, y: 30, rotateX: -15 },
           { opacity: 1, y: 0, rotateX: 0, duration: 0.8, ease: 'power3.out' },
-          index === 0 ? 0.5 : '+=0.2'
+          // Dòng đầu hiện ngay, các dòng sau trễ hơn 0.2s
+          index === 0 ? 0.5 : '+=0.2' 
         )
       }
     })
 
-    // Phase 2: Fade out countdown, show final reveal
-    timeline.to(countdownIndices.map(i => splashTextsRef.current[i]), {
-      opacity: 0,
-      y: -20,
-      duration: 0.6,
-      ease: 'power2.in',
-      stagger: 0.1
-    }, '+=1.5')
-
+    // Phase 2: Hiện dòng chữ cuối cùng (Không ẩn cái cũ nữa)
     const finalText = splashTextsRef.current[3]
     if (finalText) {
       timeline.fromTo(finalText,
         { opacity: 0, scale: 0.9, y: 20 },
         { opacity: 1, scale: 1, y: 0, duration: 1, ease: 'back.out(1.7)' },
-        '+=0.2'
+        // Xuất hiện sau khi các số đếm ngược đã yên vị khoảng 0.5s
+        '+=0.5' 
       )
     }
 
-    timeline.to({}, { duration: 2.5 })
+    // Phase 3: Giữ nguyên toàn bộ nội dung trong 3 giây để người dùng kịp đọc
+    timeline.to({}, { duration: 3.0 })
+    
     return () => { timeline.kill() }
   }, [showSplash])
 
@@ -234,7 +231,7 @@ export default function Home() {
               color: '#9FCBEA',
             }}
           >
-            December 12. 7:00 PM
+            9  JANUARY 10:00 AM
           </p>
         </div>
 
