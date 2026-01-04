@@ -90,18 +90,27 @@ export default function Home() {
 
   // Handle envelope clicks
   const handleEnvelopeClick = () => {
+    // Nếu đang đóng thì bắt đầu chuỗi animation
     if (openStage === 0) {
-      setOpenStage(1) // Phase 1: Seal removal starts
+      setOpenStage(1) // Phase 1: Tháo niêm phong
+      
       setTimeout(() => {
-        setOpenStage(2) // Phase 2: Flap starts opening after seal is gone
+        setOpenStage(2) // Phase 2: Mở nắp bao thư
+        
         setTimeout(() => {
-          setOpenStage(3) // Phase 3: Card slides up after flap is open
-        }, 800) // Duration of flap rotation (transition is 0.8s)
-      }, 500) // Duration of seal transition
+          setOpenStage(3) // Phase 3: Thiệp trồi lên
+          
+          // --- LOGIC MỚI: TỰ ĐỘNG CHUYỂN QUA STAGE 4 ---
+          setTimeout(() => {
+            setOpenStage(4) // Tự động vào chi tiết sau 2s
+          }, 3000) 
+          // ---------------------------------------------
+          
+        }, 800) // Thời gian chờ nắp mở (0.8s)
+      }, 500) // Thời gian chờ tháo niêm phong (0.5s)
     }
-    else if (openStage === 3) setOpenStage(4)
+    // Logic đóng lại (khi đang xem chi tiết muốn quay về)
     else if (openStage === 4) {
-      // Reset if at stage 4
       setOpenStage(0)
       setIsZoomed(false)
     }
